@@ -296,8 +296,8 @@ export default {
           conceptualComment: ''
         },
         {
-          original: '1. Innovative teaching is recognised at the division of nursing.',
-          translate: '1. O ensino inovador é reconhecido na área da saúde.',
+          original: '2. I prefer a traditional lecture format',
+          translate: '2. Eu prefiro um formato de aula tradicional.',
           semantic: null,
           semanticComment: '',
           idiomatic: null,
