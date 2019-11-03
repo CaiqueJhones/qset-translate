@@ -1,4 +1,4 @@
-import { LocalStorage, SessionStorage } from 'quasar'
+import { LocalStorage, SessionStorage, Notify } from 'quasar'
 import userService from 'services/user-service'
 
 export async function doLogin ({ commit }, userInfo) {
@@ -9,7 +9,7 @@ export async function doLogin ({ commit }, userInfo) {
     } else {
       SessionStorage.set('user-token', data.token)
     }
-    commit('doLogin', data.token)
+    commit('doLogin', data)
   } catch (error) {
     throw error.response.data
   }
@@ -19,8 +19,25 @@ export function doLogout ({ commit }) {
   try {
     LocalStorage.remove('user-token')
     SessionStorage.remove('user-token')
-    commit('doLogin', null)
+    commit('doLogin', { username: '', roles: [], token: '' })
   } catch (error) {
     throw error.response.data
+  }
+}
+
+export async function userInfo ({ commit }) {
+  try {
+    const info = await userService.info()
+    commit('setInfo', info)
+  } catch (error) {
+    let message = error.response.data ? error.response.data.message : null
+    message = message || 'Não foi possível obter o perfil do usuário'
+    Notify.create({
+      message,
+      position: 'bottom-right',
+      color: 'red',
+      icon: 'error_outline'
+    })
+    throw error
   }
 }

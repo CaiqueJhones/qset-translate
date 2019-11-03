@@ -62,17 +62,39 @@
   </div>
 </template>
 <script>
+import { mapActions, mapGetters } from 'vuex'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
+
 export default {
   data () {
     return {
-      accept: true
+      accept: null
     }
   },
   computed: {
+    ...mapGetters('judge', ['judge']),
+    ...mapGetters('user', ['isAdministrator', 'isJudge']),
     currentDate () {
       return format(new Date(), `dd 'de' MMMM 'de' yyyy`, { locale: ptBR })
+    }
+  },
+  methods: {
+    ...mapActions('judge', ['acceptTerm']),
+    async onNext () {
+      if (this.isAdministrator) {
+        this.$emit('next')
+      } else if (this.accept) {
+        await this.acceptTerm()
+        this.$emit('next')
+      }
+    },
+    async load () {
+      if (this.isJudge) {
+        if (this.judge.acceptedTerm) {
+          this.$emit('next')
+        }
+      }
     }
   }
 }

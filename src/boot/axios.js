@@ -2,7 +2,7 @@ import axios from 'axios'
 import store from '../store'
 
 export default async ({ Vue }) => {
-  const url = process.env.DEV ? '/api' : 'https://perguntasc-backend.herokuapp.com/v1'
+  const url = process.env.DEV ? '/api' : 'https://sami-qsort.herokuapp.com/'
   axios.defaults.baseURL = url
   axios.defaults.timeout = 5000
 

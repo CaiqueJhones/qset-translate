@@ -1,10 +1,18 @@
 <template>
   <q-table
-    row-key="name"
+    row-key="id"
     wrap-cells
     title="Avaliação de equivalência"
     :data="data"
     :columns="columns"
+    :pagination.sync="pagination"
+    :loading="loading"
+    @request="onRequest"
+    rows-per-page-label="Linhas por página"
+    :pagination-label="getPaginationLabel"
+    :rows-per-page-options="[1, 5, 10, 20, 0]"
+    no-data-label="Sem dados para exibir"
+    loading-label="Carregando dados"
     >
     <template v-slot:top="props">
       <div class="col-10 q-table__title">Avaliação de equivalência</div>
@@ -23,7 +31,7 @@
         <span>
           <q-icon name="help" size="1.5em" />
           <q-tooltip
-            content-class="bg-primary"
+            content-class="bg-teal"
             content-style="font-size: 9pt"
             anchor="top middle"
             self="bottom middle"
@@ -43,7 +51,7 @@
         <span>
           <q-icon name="help" size="1.5em" />
           <q-tooltip
-            content-class="bg-primary"
+            content-class="bg-teal"
             content-style="font-size: 9pt"
             anchor="top middle"
             self="bottom middle"
@@ -63,7 +71,7 @@
         <span>
           <q-icon name="help" size="1.5em" />
           <q-tooltip
-            content-class="bg-primary"
+            content-class="bg-teal"
             content-style="font-size: 9pt"
             anchor="top middle"
             self="bottom middle"
@@ -83,7 +91,7 @@
         <span>
           <q-icon name="help" size="1.5em" />
           <q-tooltip
-            content-class="bg-primary"
+            content-class="bg-teal"
             content-style="font-size: 9pt"
             anchor="top middle"
             self="bottom middle"
@@ -108,13 +116,27 @@
 
         <q-td key="semantic" :props="props">
           <div class="row q-gutter-md">
-            <q-radio dense v-model="props.row.semantic" :val="true" label="Concordo" class="col-12" />
-            <q-radio dense v-model="props.row.semantic" :val="false" label="Não concordo" class="col-12" />
+            <q-radio
+              dense
+              v-model="props.row.semantic"
+              val="I_AGREE"
+              label="Concordo"
+              class="col-12"
+              color="teal" />
+            <q-radio
+              dense
+              v-model="props.row.semantic"
+              val="I_DO_NOT_AGREE"
+              label="Não concordo"
+              class="col-12"
+              color="teal" />
           </div>
         </q-td>
         <q-td key="semanticComment" :props="props">
-          <span v-if="!props.row.semantic"> {{ props.row.semanticComment }} </span>
-          <span class="text-caption" v-if="!props.row.semantic && props.row.semanticComment === ''">
+          <span v-if="showComment(props.row.semantic, props.row.semanticComment)">
+            {{ props.row.semanticComment }}
+          </span>
+          <span class="text-caption" v-else-if="props.row.semantic === 'I_DO_NOT_AGREE'">
             Faça um comentário
           </span>
           <q-popup-edit
@@ -123,7 +145,7 @@
             buttons
             label-set="OK"
             label-cancel="Cancelar"
-            v-if="!props.row.semantic"
+            v-if="props.row.semantic === 'I_DO_NOT_AGREE'"
           >
             <q-input type="textarea" v-model="props.row.semanticComment" dense autofocus counter />
           </q-popup-edit>
@@ -131,13 +153,29 @@
 
         <q-td key="idiomatic" :props="props">
           <div class="row q-gutter-md">
-            <q-radio dense v-model="props.row.idiomatic" :val="true" label="Concordo" class="col-12" />
-            <q-radio dense v-model="props.row.idiomatic" :val="false" label="Não concordo" class="col-12" />
+            <q-radio
+              dense
+              v-model="props.row.idiomatic"
+              val="I_AGREE"
+              label="Concordo"
+              class="col-12"
+              color="teal"
+            />
+            <q-radio
+              dense
+              v-model="props.row.idiomatic"
+              val="I_DO_NOT_AGREE"
+              label="Não concordo"
+              class="col-12"
+              color="teal"
+            />
           </div>
         </q-td>
         <q-td key="idiomaticComment" :props="props">
-          <span v-if="!props.row.idiomatic"> {{ props.row.idiomaticComment }} </span>
-          <span class="text-caption" v-if="!props.row.idiomatic && props.row.idiomaticComment === ''">
+          <span v-if="showComment(props.row.idiomatic, props.row.idiomaticComment)">
+            {{ props.row.idiomaticComment }}
+          </span>
+          <span class="text-caption" v-else-if="props.row.idiomatic === 'I_DO_NOT_AGREE'">
             Faça um comentário
           </span>
           <q-popup-edit
@@ -146,7 +184,7 @@
             buttons
             label-set="OK"
             label-cancel="Cancelar"
-            v-if="!props.row.idiomatic"
+            v-if="props.row.idiomatic === 'I_DO_NOT_AGREE'"
           >
             <q-input type="textarea" v-model="props.row.idiomaticComment" dense autofocus counter />
           </q-popup-edit>
@@ -154,13 +192,29 @@
 
         <q-td key="experiential" :props="props">
           <div class="row q-gutter-md">
-            <q-radio dense v-model="props.row.experiential" :val="true" label="Concordo" class="col-12" />
-            <q-radio dense v-model="props.row.experiential" :val="false" label="Não concordo" class="col-12" />
+            <q-radio
+              dense
+              v-model="props.row.experiential"
+              val="I_AGREE"
+              label="Concordo"
+              class="col-12"
+              color="teal"
+            />
+            <q-radio
+              dense
+              v-model="props.row.experiential"
+              val="I_DO_NOT_AGREE"
+              label="Não concordo"
+              class="col-12"
+              color="teal"
+            />
           </div>
         </q-td>
         <q-td key="experientialComment" :props="props">
-          <span v-if="!props.row.experiential"> {{ props.row.experientialComment }} </span>
-          <span class="text-caption" v-if="!props.row.experiential && props.row.experientialComment === ''">
+          <span v-if="showComment(props.row.experiential, props.row.experientialComment)">
+            {{ props.row.experientialComment }}
+          </span>
+          <span class="text-caption" v-else-if="props.row.experiential === 'I_DO_NOT_AGREE'">
             Faça um comentário
           </span>
           <q-popup-edit
@@ -169,7 +223,7 @@
             buttons
             label-set="OK"
             label-cancel="Cancelar"
-            v-if="!props.row.experiential"
+            v-if="props.row.experiential === 'I_DO_NOT_AGREE'"
           >
             <q-input type="textarea" v-model="props.row.experientialComment" dense autofocus counter />
           </q-popup-edit>
@@ -177,13 +231,29 @@
 
         <q-td key="conceptual" :props="props">
           <div class="row q-gutter-md">
-            <q-radio dense v-model="props.row.conceptual" :val="true" label="Concordo" class="col-12" />
-            <q-radio dense v-model="props.row.conceptual" :val="false" label="Não concordo" class="col-12" />
+            <q-radio
+              dense
+              v-model="props.row.conceptual"
+              val="I_AGREE"
+              label="Concordo"
+              class="col-12"
+              color="teal"
+            />
+            <q-radio
+              dense
+              v-model="props.row.conceptual"
+              val="I_DO_NOT_AGREE"
+              label="Não concordo"
+              class="col-12"
+              color="teal"
+            />
           </div>
         </q-td>
         <q-td key="conceptualComment" :props="props">
-          <span v-if="!props.row.conceptual"> {{ props.row.conceptualComment }} </span>
-          <span class="text-caption" v-if="!props.row.conceptual && props.row.conceptualComment === ''">
+          <span v-if="showComment(props.row.conceptual, props.row.conceptualComment)">
+            {{ props.row.conceptualComment }}
+          </span>
+          <span class="text-caption" v-else-if="props.row.conceptual === 'I_DO_NOT_AGREE'">
             Faça um comentário
           </span>
           <q-popup-edit
@@ -192,7 +262,7 @@
             buttons
             label-set="OK"
             label-cancel="Cancelar"
-            v-if="!props.row.conceptual"
+            v-if="props.row.conceptual === 'I_DO_NOT_AGREE'"
           >
             <q-input type="textarea" v-model="props.row.conceptualComment" dense autofocus counter />
           </q-popup-edit>
@@ -201,14 +271,23 @@
       </q-tr>
     </template>
 
-    <template v-slot:bottom>
-    </template>
   </q-table>
 </template>
 <script>
+import qItemService from 'services/q-item-service'
+import judgeService from 'services/judge-service'
+import { notifySuccess, notifyError, notifyWarn } from 'services/notify'
+import { mapGetters } from 'vuex'
+
 export default {
   data () {
     return {
+      loading: false,
+      pagination: {
+        page: 1,
+        rowsPerPage: 10,
+        rowsNumber: 10
+      },
       columns: [
         {
           name: 'original',
@@ -282,32 +361,109 @@ export default {
         }
       ],
 
-      data: [
-        {
-          original: '1. Innovative teaching is recognised at the division of nursing.',
-          translate: '1. O ensino inovador é reconhecido na área da saúde.',
-          semantic: null,
-          semanticComment: '',
-          idiomatic: null,
-          idiomaticComment: '',
-          experiential: null,
-          experientialComment: '',
-          conceptual: null,
-          conceptualComment: ''
-        },
-        {
-          original: '2. I prefer a traditional lecture format',
-          translate: '2. Eu prefiro um formato de aula tradicional.',
-          semantic: null,
-          semanticComment: '',
-          idiomatic: null,
-          idiomaticComment: '',
-          experiential: null,
-          experientialComment: '',
-          conceptual: null,
-          conceptualComment: ''
+      data: []
+    }
+  },
+  computed: {
+    ...mapGetters('user', ['isAdministrator', 'isJudge'])
+  },
+  methods: {
+    async load () {
+      this.onRequest({ pagination: this.pagination })
+    },
+    async onRequest (props) {
+      let { page, rowsPerPage } = props.pagination
+      this.loading = true
+
+      try {
+        const fetchCount = rowsPerPage === 0 ? await qItemService.count() : rowsPerPage
+        const result = await qItemService.list(fetchCount, page - 1)
+        this.data = result.content.map(item => {
+          return {
+            id: item.id,
+            original: item.textOriginal,
+            translate: item.textTranslated,
+            semantic: null,
+            semanticComment: '',
+            idiomatic: null,
+            idiomaticComment: '',
+            experiential: null,
+            experientialComment: '',
+            conceptual: null,
+            conceptualComment: ''
+          }
+        })
+
+        if (this.isJudge) {
+          const answers = await judgeService.getEquivalences()
+          answers.forEach(ans => {
+            this.data.filter(item => item.id === ans.item.id).forEach(item => {
+              item.semantic = ans.semantics
+              item.semanticComment = ans.semanticsComment
+              item.idiomatic = ans.idiomatic
+              item.idiomaticComment = ans.idiomaticComment
+              item.experiential = ans.experiential
+              item.experientialComment = ans.experientialComment
+              item.conceptual = ans.conceptual
+              item.conceptualComment = ans.conceptualComment
+            })
+          })
         }
-      ]
+
+        this.pagination.page = result.number + 1
+        this.pagination.rowsPerPage = rowsPerPage
+        this.pagination.rowsNumber = result.totalElements
+
+        this.loading = false
+      } catch (error) {
+        notifyError(error)
+      }
+    },
+    async onSave () {
+      if (this.isAdministrator) {
+        notifyWarn('Você é um administrador, não pode salvar aqui!')
+        return
+      }
+      try {
+        const dt = this.data.map(item => {
+          return {
+            itemId: item.id,
+            semantics: item.semantic,
+            semanticsComment: item.semanticComment,
+            idiomatic: item.idiomatic,
+            idiomaticComment: item.idiomaticComment,
+            experiential: item.experiential,
+            experientialComment: item.experientialComment,
+            conceptual: item.conceptual,
+            conceptualComment: item.conceptualComment
+          }
+        })
+        await judgeService.saveEquivalences(dt)
+        notifySuccess('Progresso salvo!')
+      } catch (error) {
+        notifyError(error)
+      }
+    },
+    async onNext () {
+      if (this.isAdministrator) {
+        this.$emit('next')
+        return
+      }
+      try {
+        await this.onSave()
+        const complete = await judgeService.equivalenceComplete()
+        if (complete) {
+          this.$emit('next')
+        }
+      } catch (error) {
+        notifyError(error)
+      }
+    },
+    getPaginationLabel (firstRowIndex, endRowIndex, totalRowsNumber) {
+      return `${firstRowIndex}-${endRowIndex} de ${totalRowsNumber}`
+    },
+    showComment (value, comment) {
+      return value === 'I_DO_NOT_AGREE' && comment !== null && comment !== ''
     }
   }
 }

@@ -79,6 +79,7 @@
           </div>
         </q-card-section>
       </q-card>
+      <img src="statics/logo.png" alt="Logo" class="logo">
     </div>
   </q-page>
 </template>
@@ -145,14 +146,34 @@ export default {
   margin-top: -80px;
   width: 30%;
 }
+.logo {
+  position: absolute;
+  width: 350px;
+  height: 315px;
+  top: 200px;
+  left: 100px;
+}
 @media only screen and (max-width: 768px) {
   .m-card {
     width: 50%;
+  }
+  .logo {
+    position: absolute;
+    width: 350px;
+    height: 315px;
+    top: 450px;
+    left: 220px;
   }
 }
 @media only screen and (max-width: 375px) {
   .m-card {
     width: 90%;
+  }
+  .logo {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
   }
 }
 </style>
