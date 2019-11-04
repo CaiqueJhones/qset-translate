@@ -35,7 +35,7 @@
 
       <q-step
         :name="2"
-        title="CARACTERIZAÇÃO DO JUÍZ"
+        title="CARACTERIZAÇÃO DO JUIZ"
         icon="perm_identity"
         color="teal-1"
         done-color="teal"
