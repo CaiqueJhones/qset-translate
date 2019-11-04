@@ -10,7 +10,7 @@
         <img src="statics/nuvem.png" alt="Logo" class="logo">
       </div>
       <div class="row justify-center">
-        <p class="text-h6">Obrigada por participar da nossa Adaptação Trascultural!</p>
+        <p class="text-h6">Obrigada por participar da nossa Adaptação Transcultural!</p>
       </div>
     </div>
     <q-stepper
