@@ -11,6 +11,15 @@ export function notifyError (error, defaultMessage = 'Não foi possível obter a
   })
 }
 
+export function notifyErrorMessage (message) {
+  Notify.create({
+    message,
+    position: 'bottom-right',
+    color: 'red',
+    icon: 'error_outline'
+  })
+}
+
 export function notifySuccess (message) {
   Notify.create({
     message,

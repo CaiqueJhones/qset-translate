@@ -10,7 +10,7 @@
     @request="onRequest"
     rows-per-page-label="Linhas por página"
     :pagination-label="getPaginationLabel"
-    :rows-per-page-options="[1, 5, 10, 20, 0]"
+    :rows-per-page-options="[0]"
     no-data-label="Sem dados para exibir"
     loading-label="Carregando dados"
     >
@@ -106,7 +106,7 @@
     </template>
 
     <template v-slot:body="props">
-      <q-tr :props="props">
+      <q-tr :props="props" @mousemove.native="mouseOver(props.row)" :class="{ 'with-error': props.row.hasError }">
         <q-td key="original" :props="props" class="text-justify">
           {{ props.row.original }}
         </q-td>
@@ -276,7 +276,7 @@
 <script>
 import qItemService from 'services/q-item-service'
 import judgeService from 'services/judge-service'
-import { notifySuccess, notifyError, notifyWarn } from 'services/notify'
+import { notifySuccess, notifyError, notifyWarn, notifyErrorMessage } from 'services/notify'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -360,7 +360,6 @@ export default {
           sortable: false
         }
       ],
-
       data: []
     }
   },
@@ -390,7 +389,8 @@ export default {
             experiential: null,
             experientialComment: '',
             conceptual: null,
-            conceptualComment: ''
+            conceptualComment: '',
+            hasError: false
           }
         })
 
@@ -449,6 +449,10 @@ export default {
         this.$emit('next')
         return
       }
+      if (this.linesIsInvalid()) {
+        notifyErrorMessage('Um ou mais itens não foram preenchidos!')
+        return
+      }
       try {
         await this.onSave()
         const complete = await judgeService.equivalenceComplete()
@@ -464,7 +468,32 @@ export default {
     },
     showComment (value, comment) {
       return value === 'I_DO_NOT_AGREE' && comment !== null && comment !== ''
+    },
+    linesIsInvalid () {
+      this.data.forEach(item => {
+        if (item.idiomatic === null || item.semantic === null ||
+            item.experiential === null || item.conceptual === null) {
+          item.semanticComment = 'Oi?'
+          item.hasError = true
+        }
+      })
+      for (const item of this.data) {
+        if (item.hasError) {
+          return true
+        }
+      }
+      return false
+    },
+    mouseOver (item) {
+      if (item.hasError) {
+        item.hasError = false
+      }
     }
   }
 }
 </script>
+<style scoped>
+.with-error {
+  background-color: rgba(248, 0, 0, 0.329)
+}
+</style>

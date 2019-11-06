@@ -126,6 +126,7 @@ export default {
     ...mapMutations('judge', ['setJudge']),
     onPrevious () {
       this.$refs.stepper.previous()
+      window.scrollTo(0, 0)
       setTimeout(() => {
         this.actual.load()
       }, 1000)
@@ -142,6 +143,7 @@ export default {
     },
     next () {
       this.$refs.stepper.next()
+      window.scrollTo(0, 0)
       setTimeout(() => {
         this.actual.load()
       }, 1000)
