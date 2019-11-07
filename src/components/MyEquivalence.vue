@@ -285,8 +285,8 @@ export default {
       loading: false,
       pagination: {
         page: 1,
-        rowsPerPage: 10,
-        rowsNumber: 10
+        rowsPerPage: 53,
+        rowsNumber: 53
       },
       columns: [
         {

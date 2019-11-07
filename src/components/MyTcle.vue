@@ -16,10 +16,7 @@
       Sua participação neste estudo é livre e exigirá além de sua disponibilidade de tempo para avaliar a tradução da escala, um encontro via skype com a pesquisadora principal para que possamos juntos discutir e fazer uma síntese de sua apreciação da escala. Se depois de consentir em sua participação você desistir de continuar participando, tem o direito e a liberdade de retirar seu consentimento em qualquer fase da pesquisa, seja antes ou depois da coleta dos dados, independente do motivo e sem nenhum prejuízo a sua pessoa.
     </p>
     <p>
-      Sua participação neste estudo não lhe trará gastos e você não receberá gratificação por participar. Os principais riscos envolvidos na participação desse estudo são relacionados à quebra de sigilo de informações e perda de dados. O desconforto envolvido na participação desse estudo está relacionado ao tempo que será utilizado para responder o questionário.
-    </p>
-    <p>
-      Os dados coletados serão utilizados anonimamente para o relatório final da pesquisa e publicação dos resultados em periódicos e eventos científicos, seu nome não será divulgado em qualquer fase da pesquisa, mantendo assim seu sigilo e privacidade.
+      Sua participação neste estudo não lhe trará gastos e você não receberá gratificação por participar. Os principais riscos envolvidos na participação desse estudo são relacionados à quebra de sigilo de informações e perda de dados. O desconforto envolvido na participação desse estudo está relacionado ao tempo que será utilizado para responder o questionário. Contudo, os dados coletados estarão protegidos com avançadas tecnologias de proteção e serão utilizados anonimamente para o relatório final da pesquisa e publicação dos resultados em periódicos e eventos científicos, seu nome não será divulgado em qualquer fase da pesquisa, mantendo assim seu sigilo e privacidade.
     </p>
     <p>
       Na qualidade de juiz o (a) senhor (a) receberá um login e uma senha de acesso a um aplicativo web, que contará com a versão traduzida do Q-set e as instruções de como proceder à avaliação mediante normas constantes na literatura e no protocolo deste estudo.
