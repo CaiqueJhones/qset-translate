@@ -62,6 +62,7 @@
 import { mapActions, mapGetters } from 'vuex'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
+import { notifyWarn } from 'services/notify'
 
 export default {
   data () {
@@ -90,6 +91,8 @@ export default {
       if (this.isJudge) {
         if (this.judge.acceptedTerm) {
           this.$emit('next')
+        } else {
+          notifyWarn('Para prosseguir nesta pesquisa é necessário aceitar o Termo de Consentimento Livre Esclarecido!')
         }
       }
     }
