@@ -85,14 +85,14 @@ export default {
       } else if (this.accept) {
         await this.acceptTerm()
         this.$emit('next')
+      } else {
+        notifyWarn('Para prosseguir nesta pesquisa é necessário aceitar o Termo de Consentimento Livre Esclarecido!')
       }
     },
     async load () {
       if (this.isJudge) {
         if (this.judge.acceptedTerm) {
           this.$emit('next')
-        } else {
-          notifyWarn('Para prosseguir nesta pesquisa é necessário aceitar o Termo de Consentimento Livre Esclarecido!')
         }
       }
     }
