@@ -106,7 +106,7 @@
     </template>
 
     <template v-slot:body="props">
-      <q-tr :props="props" @mousemove.native="mouseOver(props.row)" :class="{ 'with-error': props.row.hasError }">
+      <q-tr :props="props">
         <q-td key="original" :props="props" class="text-justify">
           {{ props.row.original }}
         </q-td>
@@ -114,7 +114,7 @@
           {{ props.row.translate }}
         </q-td>
 
-        <q-td key="semantic" :props="props">
+        <q-td key="semantic" :props="props" :class="{ 'with-error': props.row.hasError && !props.row.semantic }">
           <div class="row q-gutter-md">
             <q-radio
               dense
@@ -151,7 +151,7 @@
           </q-popup-edit>
         </q-td>
 
-        <q-td key="idiomatic" :props="props">
+        <q-td key="idiomatic" :props="props" :class="{ 'with-error': props.row.hasError && !props.row.idiomatic }">
           <div class="row q-gutter-md">
             <q-radio
               dense
@@ -190,7 +190,7 @@
           </q-popup-edit>
         </q-td>
 
-        <q-td key="experiential" :props="props">
+        <q-td key="experiential" :props="props" :class="{ 'with-error': props.row.hasError && !props.row.experiential }">
           <div class="row q-gutter-md">
             <q-radio
               dense
@@ -229,7 +229,7 @@
           </q-popup-edit>
         </q-td>
 
-        <q-td key="conceptual" :props="props">
+        <q-td key="conceptual" :props="props" :class="{ 'with-error': props.row.hasError && !props.row.conceptual }">
           <div class="row q-gutter-md">
             <q-radio
               dense
@@ -483,11 +483,6 @@ export default {
         }
       }
       return false
-    },
-    mouseOver (item) {
-      if (item.hasError) {
-        item.hasError = false
-      }
     }
   }
 }
