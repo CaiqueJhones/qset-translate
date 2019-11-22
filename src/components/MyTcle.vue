@@ -7,7 +7,7 @@
     </p>
 
     <p>
-      Estamos realizando um estudo, EDUCAÇÃO ON-LINE NO CAMPO DA SAÚDE PÚBLICA: UM ESTUDO Q, para verificar se uma escala utilizada em outro país será validada para a população brasileira (considerando inicialmente a população docente da saúde da Universidade de São Paulo, campus Ribeirão Preto), buscando compreender os fatores que influenciam no uso da Educação On-line na formação em Saúde. Como pesquisadoras responsáveis: a Ma. Samára dos Santos Sampaio (Enfermeira, Estudante do Doutorado da Faculdade de Medicina de Ribeirão - USP), sob orientação da Profa. Dra. Aldaísa Cassanho Forster e co-orientação da Profa. Dra. Janise Braga Barros Ferreira (Docentes da Faculdade de Medicina Faculdade de Medicina de Ribeirão - USP).
+      Estamos realizando um estudo, EDUCAÇÃO ON-LINE NO CAMPO DA SAÚDE PÚBLICA: UM ESTUDO Q, para verificar se uma escala utilizada em outro país será validada para a população brasileira (considerando inicialmente a população docente da saúde da Universidade de São Paulo, campus Ribeirão Preto), buscando compreender os fatores que influenciam no uso da Educação On-line na formação em Saúde. Como pesquisadoras responsáveis: a Ma. Samára dos Santos Sampaio (Enfermeira, Estudante do Doutorado da Faculdade de Medicina de Ribeirão - USP), sob orientação da Profa. Dra. Aldaísa Cassanho Forster e co-orientação da Profa. Dra. Janise Braga Barros Ferreira (Docentes da Faculdade de Medicina de Ribeirão - USP).
     </p>
     <p>
       Para isso, a escala, chamada Q-set e-Saúde, precisa ser submetida a um rigoroso protocolo de tradução e adaptação cultural para a realidade do Brasil. Logo, venho por meio deste convidá-lo (a) a participar desse estudo na qualidade de juiz expert na área de estudos metodológicos.
