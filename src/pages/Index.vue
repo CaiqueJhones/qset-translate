@@ -3,6 +3,7 @@
     <q-toolbar class="bg-primary text-white">
       <q-toolbar-title>Adaptação Transcultural do Q-SET eSaúde</q-toolbar-title>
 
+      <q-btn flat label="Relatório" @click="report.prompt = true" v-if="isAdministrator" />
       <q-btn flat round dense icon="exit_to_app" @click="logout" />
     </q-toolbar>
     <div v-if="finish" class="q-mt-xl">
@@ -93,18 +94,54 @@
         </q-stepper-navigation>
       </template>
     </q-stepper>
+
+    <q-dialog v-model="report.prompt" persistent @before-show="resetReportDialog">
+      <q-card style="min-width: 350px">
+        <q-card-section class="row items-center q-pb-none">
+          <div class="text-h6">Nome do usuário:</div>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <q-input
+            dense
+            v-model="report.username"
+            autofocus
+            @keyup.enter="downloadReport"
+            @blur="$v.report.username.$touch"
+            :error="$v.report.username.$error"
+          >
+            <template v-slot:error>
+               Informe o nome de usuário!
+            </template>
+          </q-input>
+        </q-card-section>
+
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat label="Cancelar" v-close-popup />
+          <q-btn flat label="Download" @click="downloadReport" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { required } from 'vuelidate/lib/validators'
+import reportService from 'services/report-service'
 export default {
   name: 'PageIndex',
   data () {
     return {
       step: 1,
       disableContinue: false,
-      finish: false
+      finish: false,
+      report: {
+        prompt: false,
+        username: ''
+      }
     }
   },
   computed: {
@@ -155,6 +192,18 @@ export default {
       this.doLogout()
       this.setJudge({})
       window.location.reload()
+    },
+    downloadReport () {
+      this.$v.$touch()
+      if (this.$v.$invalid) {
+        return
+      }
+      this.report.prompt = false
+      reportService.surveyReport(this.report.username)
+    },
+    resetReportDialog () {
+      this.report.username = ''
+      this.$v.$reset()
     }
   },
   async mounted () {
@@ -169,6 +218,13 @@ export default {
       }
     } catch (error) {
       this.disableContinue = true
+    }
+  },
+  validations: {
+    report: {
+      username: {
+        required
+      }
     }
   }
 }

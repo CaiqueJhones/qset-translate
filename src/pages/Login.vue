@@ -86,6 +86,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { required, minLength } from 'vuelidate/lib/validators'
+
 export default {
   data () {
     return {
@@ -122,11 +123,13 @@ export default {
     if (this.isAuthenticated) {
       this.goToApp()
     }
-    window.addEventListener('keyup', event => {
+    const listener = event => {
       if (event.keyCode === 13) {
         this.onSubmit()
+        window.removeEventListener('keyup', listener)
       }
-    })
+    }
+    window.addEventListener('keyup', listener)
   },
   validations: {
     user: {

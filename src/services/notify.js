@@ -37,3 +37,21 @@ export function notifyWarn (message) {
     icon: 'warning'
   })
 }
+
+export function notifyBlobError (error, defaultMessage = 'Não foi possível obter acesso ao servidor!') {
+  if (error.response.data) {
+    const reader = new FileReader()
+    reader.addEventListener('loadend', () => {
+      const json = JSON.parse(reader.result)
+      Notify.create({
+        message: json.message,
+        position: 'bottom-right',
+        color: 'red',
+        icon: 'error_outline'
+      })
+    })
+    reader.readAsText(error.response.data)
+  } else {
+    notifyErrorMessage(defaultMessage)
+  }
+}
