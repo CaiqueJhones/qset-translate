@@ -473,7 +473,6 @@ export default {
       this.data.forEach(item => {
         if (item.idiomatic === null || item.semantic === null ||
             item.experiential === null || item.conceptual === null) {
-          item.semanticComment = 'Oi?'
           item.hasError = true
         }
       })
